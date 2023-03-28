@@ -144,28 +144,65 @@ function findMexicanFood(allDishes) {
 function findItalianFood(allDishes) {
     alert("Searching for Italian dishes...")
     // TODO #2: Filter all dishes for those that have a cuisine type of Italian
-    alert("Found all Italian dishes!  Check the console for full output")
+    let results = allDishes.filter(function(el){
+        if (el.cuisine === "Italian") {
+            return true;
+        } else {
+            return false;
+        }
+});
+        alert("Found all Italian dishes!  Check the console for full output")
+        return results
 }
 
 function searchCuisines(allDishes) {
     alert("Searching for dishes by cuisine...")
     // TODO #3: Gather user input for a cuisine to search for, then filter for all dishes matching this cuisine type
+    let userInput = customPrompt("What cuisine type do you wish to browse through today?(Mexican, Italian, Hungarian, Vegetarian, French, Irish): ")
+    let foundDishes = allDishes.filter(function(dishes) {
+        if (dishes.cuisine.includes(userInput)) {
+            return true;
+        } else {
+            return false;
+        }
+    });    
+    
     alert("Found all dishes matching the cuisine search term!  Check the console for full output")
+    return foundDishes;
 }
+console.log(searchCuisines(dishes));
+
 
 function searchIngredients(allDishes) {
     alert("Searching for dishes by ingredient...")
     // TODO #4: Gather user input for an ingredient to search for, then filter for all dishes that INCLUDE this ingredient in their ingredients array property
+    let userInput = customPrompt("Select an ingredient: ")
+    let foundDishes = allDishes.filter(function(dishes) {
+        if (dishes.ingredients.includes(userInput)) {
+            return true;
+        } else {
+            return false;
+        }
+    });
     alert("Found all dishes that contain the ingredient search term!  Check the console for full output")
+    return foundDishes;
 }
+console.log(searchIngredients(dishes));
 
 function generateCuisineDishName(allDishes) {
     alert("Combining cuisine and dish names...")
     // TODO #5: Apply the concatenatorFunction to each dish in allDishes, then log to the console the modified result
+    let result = allDishes.map(
+        function(foodItem){
+            return `${foodItem.cuisine} ${foodItem.name}`
+        });
+        
     alert("Successfully combined cuisine and dish names!  Check the console for full output.")
+    return result
 }
-
+console.log(generateCuisineDishName(dishes))
 // <<<<<<<<<<<<<<<<< EMAIL AND TEXT MARKETING MESSAGES <<<<<<<<<<<<<<<<<
+
 
 function emailMessage(dishOfTheDay) {
     // TODO #6: Adjust the message below so the cuisine and name of the dish are displayed
@@ -175,7 +212,8 @@ function emailMessage(dishOfTheDay) {
     Thank you for subscribing to email alert messages!
     Today's Dish of the day is:
 
-    <DISH OF THE DAY HERE>
+    ${dishOfTheDay.name}
+    ${dishOfTheDay.cuisine}
 
     We hope to see you in soon!
 
@@ -188,6 +226,7 @@ function emailMessage(dishOfTheDay) {
     return message;
 }
 
+
 function textMessage(dishOfTheDay) {
     // TODO #6: Adjust the message below so the cuisine and name of the dish are displayed
     let message = `
@@ -196,7 +235,8 @@ function textMessage(dishOfTheDay) {
     This is an automated text message alert.
     Today's Dish of the day is:
 
-    <DISH OF THE DAY HERE>
+    ${dishOfTheDay.name}
+    ${dishOfTheDay.cuisine}
 
     We hope to see you in soon!
 
@@ -209,13 +249,17 @@ function textMessage(dishOfTheDay) {
     return message;
 }
 
+
 function generateMarketingMessage(dishOfTheDay, messageTypeCallback) {
     alert('Sending final message to all 389 customers...')
     // TODO #7: Call the passed-in callback function on the dishOfTheDay.  Save the result as a variable
     // Then, log that result to the console
+    let text_CB = textMessage(dishOfTheDay);
+    let email_CB = emailMessage(dishOfTheDay);
     alert('Success!  Check the console for a copy of the final marketing message!')
-}
-
+} 
+console.log(generateMarketingMessage(dishOfTheDay, text_CB));
+console.log(generateMarketingMessage(dishOfTheDay, email_CB));
 // <<<<<<<<<<<<<<<<< CUSTOM PROMPT FUNCTION <<<<<<<<<<<<<<<<<
 
 function customPrompt(promptQuestion, arrayOfValidResponses) {
@@ -263,10 +307,14 @@ function runApp(allDishes, specialDish) {
         case "6":
             // TODO #8: Call the appropriate function to generate the marketing text message.  
             // You will need to provide today's dish and the appropriate callback function as arguments!
+            let textMessage_str = textMessage(specialDish);
+            console.log(textMessage_str);
             break
         case "7":
             // TODO #9: Call the appropriate function to generate the marketing email message.  
             // You will need to provide today's dish and the appropriate callback function as arguments!
+            let emailMessage_str = emailMessage(specialDish);
+            console.log(emailMessage_str);
             break
         case "Exit":
             alert("Thank you for using the Recipe Searching Application!  Goodbye!")
@@ -278,3 +326,6 @@ function runApp(allDishes, specialDish) {
 }
 
 runApp(dishes, todaysSpecialDish)
+// array.filter( el => condition )
+// array.map( el => operation )
+//dishes.filter( el => el.cuisine === "Italian" || el.cuisine === " Japanese")
