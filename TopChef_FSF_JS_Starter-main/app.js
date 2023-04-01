@@ -176,7 +176,7 @@ console.log(searchCuisines(dishes));
 function searchIngredients(allDishes) {
     alert("Searching for dishes by ingredient...")
     // TODO #4: Gather user input for an ingredient to search for, then filter for all dishes that INCLUDE this ingredient in their ingredients array property
-    let userInput = customPrompt("Select an ingredient: ")
+    let userInput = customPrompt("what ingredients are you searching for?",("Select an ingredient: "))
     let foundDishes = allDishes.filter(function(dishes) {
         if (dishes.ingredients.includes(userInput)) {
             return true;
@@ -256,10 +256,15 @@ function generateMarketingMessage(dishOfTheDay, messageTypeCallback) {
     // Then, log that result to the console
     let text_CB = textMessage(dishOfTheDay);
     let email_CB = emailMessage(dishOfTheDay);
+    if (messageTypeCallback == "text"){
+        console.log(text_CB())
+    }
+    if(messageTypeCallback == "email"){
+        console.log(email_CB())
+    }
+
     alert('Success!  Check the console for a copy of the final marketing message!')
 } 
-console.log(generateMarketingMessage(dishOfTheDay, text_CB));
-console.log(generateMarketingMessage(dishOfTheDay, email_CB));
 // <<<<<<<<<<<<<<<<< CUSTOM PROMPT FUNCTION <<<<<<<<<<<<<<<<<
 
 function customPrompt(promptQuestion, arrayOfValidResponses) {
@@ -275,7 +280,7 @@ function customPrompt(promptQuestion, arrayOfValidResponses) {
 
 function runApp(allDishes, specialDish) {
     alert("Welcome to the Recipe Searching Application!")
-    let userChoice = customPrompt(`Press 1 to search for Mexican dishes.
+    let userChoice = prompt(`Press 1 to search for Mexican dishes.
     Press 2 to search for Italian dishes.    
     Press 3 to search for dishes by cuisine.
     Press 4 to search for dishes by ingredient.
@@ -307,14 +312,13 @@ function runApp(allDishes, specialDish) {
         case "6":
             // TODO #8: Call the appropriate function to generate the marketing text message.  
             // You will need to provide today's dish and the appropriate callback function as arguments!
-            let textMessage_str = textMessage(specialDish);
-            console.log(textMessage_str);
+            console.log(generateMarketingMessage(specialDish, text))
             break
         case "7":
             // TODO #9: Call the appropriate function to generate the marketing email message.  
             // You will need to provide today's dish and the appropriate callback function as arguments!
-            let emailMessage_str = emailMessage(specialDish);
-            console.log(emailMessage_str);
+            
+            console.log(generateMarketingMessage(specialDish, email));
             break
         case "Exit":
             alert("Thank you for using the Recipe Searching Application!  Goodbye!")
